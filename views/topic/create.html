@@ -36,6 +36,10 @@
       var formData = $(this).serialize()
       $.post('/topic/create', formData, function (data) {
         console.log(data)
+        if(data.cood === 200){
+          window.alert(data.message);
+          window.location.href = '/'
+        }
       })
     }
   </script>

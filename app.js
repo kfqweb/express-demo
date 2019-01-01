@@ -10,7 +10,7 @@ const MySQLStore = require('express-mysql-session')(session)
 const router = require('./router')
 // 配置数据库
 
-
+// 数据库信息
 const options = {
   // 域名
   host: 'localhost',
@@ -23,13 +23,13 @@ const options = {
   // 库名称
   database: 'test'
 }
-// 链接数据库
+// sessionStore 使用数据库
 const sessionStore = new MySQLStore(options)
 
 // 开启 experss
 const app = express()
 
-// 配置 express-session 插件
+// 配置 express-mysql-session 
 // 只要配置了该插件，则在后续请求的任何处理函数中都可以使用 
 //    req.session 来访问或者设置 Session 数据了
 app.use(session({

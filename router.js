@@ -2,8 +2,8 @@
 const express = require('express')
 
 // 加载所有的处理函数模块
-const index = require('./controllers/index')
-const topic = require('./controllers/topic')
+const index = require('./controllers/C_index')
+const topic = require('./controllers/C_topic')
 const user = require('./controllers/C_uesr')
 
 // 1. 调用 express.Router() 创建一个路由实例

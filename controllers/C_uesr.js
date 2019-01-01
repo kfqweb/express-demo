@@ -118,5 +118,7 @@ exports.signup = (req, res) => {
 }
 
 exports.signout = (req, res) => {
-  res.send('signout')
+  // res.send('signout')
+  delete req.session.user;
+  res.redirect('/signin');
 }
