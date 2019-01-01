@@ -63,5 +63,13 @@ app.engine('html', require('express-art-template'))
 // 比如 body 模快配置出现错误
 app.use(router)
 
+
+app.use((err, req, res, next) => {
+  res.render('index.html',{
+    code: 500,
+    message: err.message
+  })
+})
+
 app.listen(3000, () => console.log('running 3000 prot.....'))
 

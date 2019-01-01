@@ -1,11 +1,11 @@
 const conn = require('../controllers/db')
 // 提交信息
 exports.create = (body, callback) => {
-  conn.query('INSERT INTO `topics` SET ?', body, (err, results) => {
+  conn.query('INSERT INTO `topics` SET ?', body, (err, res, nextults) => {
     if (err) {
       return callback(err);
     }
-    callback(null, results)
+    callback(null, res, nextults)
   })
 }
 // 根据 ID 找到数据并返回
@@ -19,11 +19,11 @@ exports.showById = (topicID, callback) => {
       users
     WHERE
       topics.id = ?`
-    , topicID, (err, results) => {
+    , topicID, (err, res, nextults) => {
       if (err) {
         return callback(err);
       }
-      callback(null, results)
+      callback(null, res, nextults)
     })
 }
 
@@ -47,11 +47,11 @@ exports.showEdit = (topicID, callback) => {
 }
 
 // 提交编辑
-exports.edit = (data, callback) => {
-  conn.query('UPDATE `topics` SET `title`=?, `content`=? WHERE `id`=?', [data.title,data.content, data.id], (err, data) => {
-      if (err) {
-        return callback(err)
-      }
-      callback(null, data)
-    })
+exports.edit = (data, next, callback) => {
+  conn.query('UPDATE `topics` SET `title`=?, `content`=? WHERE `id`=?', [data.title, data.content, data.id], (err, data) => {
+    if (err) {
+      return callback(err)
+    }
+    callback(null, data)
+  })
 }

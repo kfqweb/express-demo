@@ -7,11 +7,11 @@ const md5 = require('md5')
 // 引入 数据库模块
 const conn = require('./db')
 
-exports.showSignin = (req, res) => {
+exports.showSignin = (req, res, next) => {
   res.render('signin.html')
 }
 // 登录
-exports.signin = (req, res) => {
+exports.signin = (req, res, next) => {
   const body = req.body
   // 验证邮箱和密码
   /* 
@@ -22,10 +22,7 @@ exports.signin = (req, res) => {
   */
   M_user.getEmail(body.email, (err, user) => {
     if (err) {
-      return res.send({
-        code: 500,
-        message: err.message
-      })
+      return next(err)
     }
     if (!user) {
       return res.send({
@@ -51,22 +48,19 @@ exports.signin = (req, res) => {
   })
 }
 
-exports.showSignup = (req, res) => {
+exports.showSignup = (req, res, next) => {
   // res.end('showSignup')
   res.render('signup.html')
 }
 // 注册
-exports.signup = (req, res) => {
+exports.signup = (req, res, next) => {
   const body = req.body
   // console.log(body);
   // 查看邮箱是否被占用
   M_user.getEmail(body.email, (err, user) => {
     // 是否出现错误
     if (err) {
-      return res.send({
-        code: 500,
-        message: err.message
-      })
+      return next(err)
     }
     if (user) {
       return res.send({
@@ -78,10 +72,7 @@ exports.signup = (req, res) => {
     M_user.getNickname(body.nickname, (err, user) => {
       // 是否出现错误
       if (err) {
-        return res.send({
-          code: 500,
-          message: err.message
-        })
+        return next(err)
       }
       // 昵称是否被占用
       if (user) {
@@ -103,10 +94,7 @@ exports.signup = (req, res) => {
       M_user.create(body, (err, user) => {
         if (err) {
           // 服务器异常，通知客户端
-          return res.send({
-            code: 500,
-            message: err.message
-          })
+          return next(err)
         }
         res.send({
           code: 200,
@@ -117,7 +105,7 @@ exports.signup = (req, res) => {
   })
 }
 
-exports.signout = (req, res) => {
+exports.signout = (req, res, next) => {
   // res.send('signout')
   delete req.session.user;
   res.redirect('/signin');

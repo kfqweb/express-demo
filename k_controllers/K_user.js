@@ -12,22 +12,22 @@ const conn = require('./db')
 //   database: 'test' // 数据库
 // })
 
-exports.showSignin = (req, res) => {
+exports.showSignin = (req, res, next) => {
   res.render('signin.html')
 }
 
-exports.signin = (req, res) => {
+exports.signin = (req, res, next) => {
   const body = req.body
   console.log(body);
   res.end('signin')
 }
 
-exports.showSignup = (req, res) => {
+exports.showSignup = (req, res, next) => {
   // res.end('showSignup')
   res.render('signup.html')
 }
 
-exports.signup = (req, res) => {
+exports.signup = (req, res, next) => {
   // res.end('signup')
   // 1. 接收获取客户端提交的表单数据
   //    配置 body-parser 插件用来解析获取表单 POST 请求体数据
@@ -39,7 +39,7 @@ exports.signup = (req, res) => {
   // conn.query('SQL语句字符串',['数据'],(err,data)=>{// 回调函数})
   console.log(body);
   // 查看邮箱是否被占用
-  /*   conn.query('SELECT * FROM `users` WHERE `email` = ?', [body.email], (err, results) => {
+  /*   conn.query('SELECT * FROM `users` WHERE `email` = ?', [body.email], (err, res, nextults) => {
       if (err) {
         return res.send({
           code: 500,
@@ -54,7 +54,7 @@ exports.signup = (req, res) => {
         })
       }
       // 查看 昵称是否被占用
-      conn.query('SELECT * FROM `users` WHERE `nickname` = ?', [body.nickname], (err, results) => {
+      conn.query('SELECT * FROM `users` WHERE `nickname` = ?', [body.nickname], (err, res, nextults) => {
         if (err) {
           return res.send({
             code: 500,
@@ -77,7 +77,7 @@ exports.signup = (req, res) => {
       // format() 方法用来格式化输出
       body.createdAt = moment().format('YYYY-MM-DD HH:mm:ss')
       // 注册
-      conn.query('INSERT INTO `users` SET ?', body, (err, results) => {
+      conn.query('INSERT INTO `users` SET ?', body, (err, res, nextults) => {
         if (err) {
           return res.send({
             code: 500,
@@ -93,6 +93,6 @@ exports.signup = (req, res) => {
     
 }
 
-exports.signout = (req, res) => {
+exports.signout = (req, res, next) => {
   res.send('signout')
 }

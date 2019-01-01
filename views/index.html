@@ -12,6 +12,11 @@
     参考文档：
    -->
   {{include './_includes/header.html'}}
+  {{ if message}}
+  <section class="container">
+    {{message}}
+  </section>
+  {{else}}
   <section class="container">
     <ul class="media-list">
       {{ each topics }}
@@ -48,6 +53,7 @@
       </ul>
     </nav>
   </section>
+  {{/if}}
   {{include './_includes/footer.html'}}
   <script src="/node_modules/jquery/dist/jquery.js"></script>
   <script src="/node_modules/bootstrap/dist/js/bootstrap.js"></script>
