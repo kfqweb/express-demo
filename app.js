@@ -19,7 +19,7 @@ const options = {
   // 用户名
   user: 'root',
   // 密码
-  password: 'root ',
+  password: 'root',
   // 库名称
   database: 'test'
 }
@@ -28,10 +28,8 @@ const sessionStore = new MySQLStore(options)
 
 // 开启 experss
 const app = express()
-// 导入路由
-app.use(router)
 
-// 配置 Session 插件
+// 配置 express-session 插件
 // 只要配置了该插件，则在后续请求的任何处理函数中都可以使用 
 //    req.session 来访问或者设置 Session 数据了
 app.use(session({
@@ -61,15 +59,9 @@ app.use(bodyParser.json())
 // 配置使用 art-template 模板引擎
 app.engine('html', require('express-art-template'))
 
+// 导入路由,一定要在最后面，要不然会导致依赖项出现问题，
+// 比如 body 模快配置出现错误
+app.use(router)
+
 app.listen(3000, () => console.log('running 3000 prot.....'))
 
-
-/*
-    // "art-template": "^4.13.2",
-    // "bootstrap": "^3.3.7",
-    // "express": "^4.16.4",
-    // "express-art-template": "^1.0.1",
-    // "express-mysql-session": "^2.1.0",
-    // "express-session": "^1.15.6",
-    // "jquery": "^3.3.1"
-*/
