@@ -19,12 +19,12 @@ exports.create = (req, res) => {
   M_topic.create(body, (err, data) => {
     if (err) {
       return res.send({
-        cood: 500,
+        code: 500,
         message: err.message
       })
     }
     res.send({
-      cood: 200,
+      code: 200,
       message: '发布成功'
     })
   })
@@ -32,30 +32,72 @@ exports.create = (req, res) => {
 // 显示
 exports.show = (req, res) => {
   const { topicID } = req.params
-  console.log(topicID);
+  // console.log(topicID);
   M_topic.showById(topicID, (err, data) => {
+    if (err) {
+      return res.send({
+        code: 500,
+        message: err.message
+      })
+    }
+    res.render('topic/show.html', {
+      user: req.session.user.id,
+      data: data[0]
+    })
+  })
+
+}
+// 显示编辑
+exports.showEdit = (req, res) => {
+  const { topicID } = req.params
+
+  M_topic.showEdit(topicID, (err, data) => {
+    if (err) {
+      return res.send({
+        code: 500,
+        message: err.message
+      })
+    }
+    res.render('topic/edit.html', {
+      topic: data[0],
+      user: req.session.user
+    })
+  })
+
+}
+
+
+// 删除
+exports.delete = (req, res) => {
+  const { topicID } = req.params
+  M_topic.deleteById(topicID, (err, data) => {
+    if (err) {
+      res.send({
+        code: 500,
+        message: err.message
+      })
+    }
+    // res.redirect('/')
+    res.send({
+      code: 200
+    })
+  })
+}
+
+
+// 编辑提交
+exports.edit = (req, res) => {
+  const body = req.body
+  M_topic.edit(body, (err, data) => {
     if(err){
       return res.send({
         code:500,
         message:err.message
       })
     }
-    res.render('topic/show.html', {
-      user: req.session.user.id,
-      data:data[0]
+    res.send({
+      code:200,
+      message:'成了！！！'
     })
   })
-  
-}
-// 显示编辑
-exports.showEdit = (req, res) => {
-  res.end('showEdit')
-}
-// 编辑
-exports.edit = (req, res) => {
-  res.end('edit')
-}
-// 删除
-exports.delete = (req, res) => {
-  res.end('delete')
 }

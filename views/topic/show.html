@@ -29,10 +29,10 @@
 
           <!-- 如果当前登录用户的id == 当前话题的userId -->
           {{if user == data.userId}}
-            <a href="/topic/{{data.id}}/edit">编辑</a>
-            <a href="/topic/{{data.id}}/delete" id="delete_topic">删除</a>
+          <a href="/topic/{{data.id}}/edit">编辑</a>
+          <a href="/topic/{{data.id}}/delete" data-id="{{data.userId}}" id="delete_topic">删除</a>
           {{/if}}
-          <br> 
+          <br>
           {{data.content}}
           <hr>
         </article>
@@ -93,6 +93,21 @@
   {{include '../_includes/footer.html'}}
   <script src="/node_modules/jquery/dist/jquery.js"></script>
   <script src="/node_modules/bootstrap/dist/js/bootstrap.js"></script>
+  <script>
+    $('#delete_topic').on('click', deltetTooic);
+
+    function deltetTooic(e) {
+      e.preventDefault();
+      console.log($(this).attr('href'));
+      
+      $.post($(this).attr('href'), function (data) {
+        if (data.code === 200) {
+          window.location.href = '/'
+        }
+      })
+    }
+
+  </script>
 </body>
 
 </html>

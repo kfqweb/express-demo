@@ -15,7 +15,7 @@ const router = express.Router()
 router
   .get('/', index.showIndex)
 
-// 用户路由
+// 用户路由·
 router
   .get('/signin', user.showSignin)
   .post('/signin', user.signin)
